@@ -21,4 +21,6 @@ public interface ProductRepository extends ReactiveCrudRepository<Product, Long>
             WHERE uuid = :uuid
             """)
     Mono<Void> updateProductByUuid(String uuid, int newStock, String newName);
+
+    Mono<Void> deleteByUuid(String productUuid);
 }
