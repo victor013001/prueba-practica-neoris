@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.util.UUID;
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,7 +15,7 @@ import java.util.UUID;
 public class Product {
     @Id
     private Long id;
-    private UUID uuid;
+    private String uuid;
     private String name;
     private Integer stock;
 }

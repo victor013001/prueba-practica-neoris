@@ -17,7 +17,7 @@ public class BranchDataUtil {
         var randomId = ThreadLocalRandom.current().nextLong();
         return Branch.builder()
                 .id(randomId)
-                .uuid(UUID.randomUUID())
+                .uuid(UUID.randomUUID().toString())
                 .name("Branch " + randomId)
                 .build();
     }
