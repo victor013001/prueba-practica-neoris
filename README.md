@@ -18,6 +18,8 @@ Prueba practica sobre el manejo de franquicias
 - AWS
 - Docker
 
+## Diagramas
+![Entidades](prueba-practica-neoris.drawio.png)
 
 ## Funcionalidades
 
