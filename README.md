@@ -65,8 +65,9 @@ Prueba práctica sobre el manejo de franquicias y sus sucrusales con productos a
    curl --location --request PATCH 'http://localhost:8080/prueba-practica-neoris/api/v1/product' --header 'Content-Type: application/json' --data '{"uuid": "31f4b2a4-0ea2-11f0-914c-0a675a1bc593", "name": "product-test", "stock": 20}'
 
 ## AWS
+La aplicacion al igual que la base de datos esta desplegada en **AWS** en un **EC2** y **Aurora and RDS** respectivamente, y no se requiere una configuracion local para funcionar
 **Acceder a la aplicación:**
-  - La aplicación esta disponible en ``.
+  - La aplicación esta disponible en `http://13.58.138.8:8080/prueba-practica-neoris/`.
   - Se puede acceder a los diferentes endpoints descritos en la sección de **Funcionalidades**
 
 ## Configuración Local
