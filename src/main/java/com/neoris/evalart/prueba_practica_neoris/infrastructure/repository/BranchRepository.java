@@ -8,4 +8,8 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface BranchRepository extends ReactiveCrudRepository<Branch, Long> {
     Mono<Boolean> existsByName(String branchName);
+
+    Mono<Boolean> existsByUuid(String branchUuid);
+
+    Mono<Long> getIdByUuid(String branchUuid);
 }
