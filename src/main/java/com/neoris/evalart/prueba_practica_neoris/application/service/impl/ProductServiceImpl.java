@@ -40,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<Void> updateProduct(ProductDto productDto) {
         return checkProductUuidExist(productDto.uuid())
+                .then(checkNewProductNameUnique(productDto.name(), productDto.uuid()))
                 .then(productRepository.updateProductByUuid(productDto.uuid(), productDto.stock(), productDto.name()));
     }
 
@@ -60,5 +61,11 @@ public class ProductServiceImpl implements ProductService {
         log.info("{} Checking if Branch UUID {} exist", LOG_PREFIX, productUuid);
         return productRepository.existsByUuid(productUuid)
                 .flatMap(exist -> exist ? Mono.empty() : Mono.error(ProductNotExist::new));
+    }
+
+    private Mono<Void> checkNewProductNameUnique(String productName, String productUuid) {
+        log.info("{} Checking if new Product Name {} is unique", LOG_PREFIX, productName);
+        return productRepository.newNameUnique(productName, productUuid)
+                .flatMap(result -> result == 1 ? Mono.error(ProductAlreadyExist::new) : Mono.empty());
     }
 }

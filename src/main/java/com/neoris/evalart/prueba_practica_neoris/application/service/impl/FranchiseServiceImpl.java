@@ -6,6 +6,7 @@ import com.neoris.evalart.prueba_practica_neoris.domain.model.Franchise;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.FranchiseDto;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.FranchiseAlreadyExist;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.FranchiseNotExist;
+import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.NothingToChange;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.repository.FranchiseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,14 @@ public class FranchiseServiceImpl implements FranchiseService {
                 .then(franchiseRepository.getIdByUuid(uuid));
     }
 
+    @Override
+    public Mono<Void> updateFranchiseName(String franchiseUuid, String name) {
+        return checkFranchiseUuidExist(franchiseUuid)
+                .then(compareFranchiseNameWithCurrent(franchiseUuid, name))
+                .then(checkFranchiseNameUnique(name))
+                .then(franchiseRepository.updateName(franchiseUuid, name));
+    }
+
     private Mono<Void> checkFranchiseUuidExist(String franchiseUuid) {
         log.info("{} Checking if Franchise Uuid {} exist", LOG_PREFIX, franchiseUuid);
         return franchiseRepository.existsByUuid(franchiseUuid)
@@ -49,5 +58,11 @@ public class FranchiseServiceImpl implements FranchiseService {
         log.info("{} Checking if Franchise with name {} is unique", LOG_PREFIX, franchiseName);
         return franchiseRepository.existsByName(franchiseName)
                 .flatMap(exist -> exist ? Mono.error(FranchiseAlreadyExist::new) : Mono.empty());
+    }
+
+    private Mono<Void> compareFranchiseNameWithCurrent(String franchiseUuid, String name) {
+        log.info("{} Comparing Franchise name {} with current Franchise {}", LOG_PREFIX, name, franchiseUuid);
+        return franchiseRepository.isNameEquals(franchiseUuid, name)
+                .flatMap(result -> result == 1 ? Mono.error(NothingToChange::new) : Mono.empty());
     }
 }

@@ -23,4 +23,12 @@ public interface ProductRepository extends ReactiveCrudRepository<Product, Long>
     Mono<Void> updateProductByUuid(String uuid, int newStock, String newName);
 
     Mono<Void> deleteByUuid(String productUuid);
+
+    @Query("""
+            SELECT CASE WHEN COUNT(*) > 0 
+                THEN TRUE ELSE FALSE END 
+            FROM product 
+            WHERE name = :productName AND uuid <> :productUuid
+            """)
+    Mono<Integer> newNameUnique(String productName, String productUuid);
 }
