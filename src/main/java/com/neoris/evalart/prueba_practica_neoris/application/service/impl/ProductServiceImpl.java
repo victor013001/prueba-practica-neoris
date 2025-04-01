@@ -2,16 +2,19 @@ package com.neoris.evalart.prueba_practica_neoris.application.service.impl;
 
 import com.neoris.evalart.prueba_practica_neoris.application.mapper.ProductMapper;
 import com.neoris.evalart.prueba_practica_neoris.application.service.BranchService;
+import com.neoris.evalart.prueba_practica_neoris.application.service.FranchiseService;
 import com.neoris.evalart.prueba_practica_neoris.application.service.ProductService;
 import com.neoris.evalart.prueba_practica_neoris.domain.model.Product;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.ProductDto;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.ProductRequestDto;
+import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.TopProductDto;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.ProductAlreadyExist;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.ProductNotExist;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -23,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final BranchService branchService;
+    private final FranchiseService franchiseService;
 
     @Override
     public Mono<ProductDto> createProduct(ProductRequestDto productRequestDto) {
@@ -49,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
         log.info("{} Deleting Product with UUID {}", LOG_PREFIX, productUuid);
         return checkProductUuidExist(productUuid)
                 .then(productRepository.deleteByUuid(productUuid));
+    }
+
+    @Override
+    public Flux<TopProductDto> getProductsWithMoreStockByFranchiseUuid(String franchiseUuid) {
+        return franchiseService.getFranchiseIdByUuid(franchiseUuid)
+                .thenMany(productRepository.findTopStockProductsByFranchise(franchiseUuid));
     }
 
     private Mono<Void> checkProductUnique(String productName) {
