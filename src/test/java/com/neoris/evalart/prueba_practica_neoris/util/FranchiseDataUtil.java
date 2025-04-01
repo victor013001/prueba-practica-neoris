@@ -18,7 +18,7 @@ public class FranchiseDataUtil {
         var randomId = ThreadLocalRandom.current().nextLong();
         return Franchise.builder()
                 .id(randomId)
-                .uuid(UUID.randomUUID())
+                .uuid(UUID.randomUUID().toString())
                 .name("Franchise " + randomId)
                 .build();
     }

@@ -14,7 +14,7 @@ public class ProductDataUtil {
         var randomId = ThreadLocalRandom.current().nextLong();
         return Product.builder()
                 .id(randomId)
-                .uuid(UUID.randomUUID())
+                .uuid(UUID.randomUUID().toString())
                 .name("Product " + randomId)
                 .stock(ThreadLocalRandom.current().nextInt())
                 .build();

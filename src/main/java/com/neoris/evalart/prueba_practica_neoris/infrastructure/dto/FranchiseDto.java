@@ -4,10 +4,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
-import java.util.UUID;
 
 public record FranchiseDto(
-        UUID uuid,
+        String uuid,
         @NotBlank(message = "Name is mandatory")
         String name,
         @Valid

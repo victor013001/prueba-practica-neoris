@@ -11,7 +11,6 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Data
 @Builder
@@ -21,7 +20,7 @@ import java.util.UUID;
 public class Branch {
     @Id
     private Long id;
-    private UUID uuid;
+    private String uuid;
     private String name;
     @Transient
     private List<Product> products;
