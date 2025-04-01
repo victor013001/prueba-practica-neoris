@@ -12,4 +12,12 @@ public interface BranchService {
      * @return Publisher that emits the saved BranchDto with UUID
      */
     Mono<BranchDto> createBranch(BranchRequestDto BranchRequestDto);
+
+    /**
+     * Check if the Branch Uuid exists and returns the Id
+     *
+     * @param uuid The Branch Uuid
+     * @return Publisher that emits the Branch Id
+     */
+    Mono<Long> getBranchIdByUuid(String uuid);
 }
