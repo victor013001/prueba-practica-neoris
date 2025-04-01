@@ -1,4 +1,4 @@
-package com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception;
+package com.neoris.evalart.prueba_practica_neoris.infrastructure.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

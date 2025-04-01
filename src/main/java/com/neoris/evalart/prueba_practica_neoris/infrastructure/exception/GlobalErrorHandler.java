@@ -1,4 +1,4 @@
-package com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception;
+package com.neoris.evalart.prueba_practica_neoris.infrastructure.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
