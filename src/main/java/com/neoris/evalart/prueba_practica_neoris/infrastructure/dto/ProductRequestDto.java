@@ -3,12 +3,13 @@ package com.neoris.evalart.prueba_practica_neoris.infrastructure.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-public record ProductDto(
-        @NotBlank(message = "Uuid is mandatory")
+public record ProductRequestDto(
         String uuid,
         @NotBlank(message = "Name is mandatory")
         String name,
         @Positive(message = "Stock must be a positive value")
-        Integer stock
+        Integer stock,
+        @NotBlank(message = "Branch Uuid is mandatory")
+        String branchUuid
 ) {
 }
