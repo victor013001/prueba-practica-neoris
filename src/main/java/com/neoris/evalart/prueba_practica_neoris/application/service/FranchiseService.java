@@ -11,4 +11,12 @@ public interface FranchiseService {
      * @return Publisher that emits the saved FranchiseDto with UUID
      */
     Mono<FranchiseDto> createFranchise(FranchiseDto franchiseDto);
+
+    /**
+     * Check if the Franchise Uuid exists and returns the Id
+     *
+     * @param uuid The Franchise Uuid
+     * @return Publisher that emits the Franchise Id
+     */
+    Mono<Long> getFranchiseIdByUuid(String uuid);
 }

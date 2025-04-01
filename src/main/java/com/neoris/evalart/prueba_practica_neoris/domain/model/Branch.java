@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.Collections;
@@ -24,6 +25,8 @@ public class Branch {
     private String name;
     @Transient
     private List<Product> products;
+    @Column("franchise_id")
+    private Long franchiseId;
 
     public List<Product> getProducts() {
         return Objects.isNull(products) ? Collections.emptyList() : products;
