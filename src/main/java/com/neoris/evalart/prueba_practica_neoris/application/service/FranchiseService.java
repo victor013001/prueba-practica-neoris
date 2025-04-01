@@ -19,4 +19,12 @@ public interface FranchiseService {
      * @return Publisher that emits the Franchise Id
      */
     Mono<Long> getFranchiseIdByUuid(String uuid);
+
+    /**
+     * Check if the new Franchise name is different from the current and if is unique
+     *
+     * @param franchiseUuid The Franchise uuid
+     * @param name The new Franchise name
+     */
+    Mono<Void> updateFranchiseName(String franchiseUuid, String name);
 }

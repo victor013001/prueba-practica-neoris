@@ -20,4 +20,12 @@ public interface BranchService {
      * @return Publisher that emits the Branch Id
      */
     Mono<Long> getBranchIdByUuid(String uuid);
+
+    /**
+     * Check if the new Branch name is different from the current and if not exist
+     *
+     * @param branchUuid The Branch uuid
+     * @param name The new Branch name
+     */
+    Mono<Void> updateBranchName(String branchUuid, String name);
 }

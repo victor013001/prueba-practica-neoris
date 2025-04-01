@@ -8,6 +8,7 @@ import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.BranchDto;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.BranchRequestDto;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.BranchAlreadyExist;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.BranchNotExist;
+import com.neoris.evalart.prueba_practica_neoris.infrastructure.exception.standard_exception.NothingToChange;
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.repository.BranchRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,14 @@ public class BranchServiceImpl implements BranchService {
                 .then(branchRepository.getIdByUuid(uuid));
     }
 
+    @Override
+    public Mono<Void> updateBranchName(String branchUuid, String name) {
+        return checkBranchUuidExist(branchUuid)
+                .then(compareBranchNameWithCurrent(branchUuid, name))
+                .then(checkBranchUnique(name))
+                .then(branchRepository.updateName(branchUuid, name));
+    }
+
     private Mono<Void> checkBranchUnique(String branchName) {
         log.info("{} Checking if Branch with name {} exists", LOG_PREFIX, branchName);
         return branchRepository.existsByName(branchName)
@@ -53,5 +62,11 @@ public class BranchServiceImpl implements BranchService {
         log.info("{} Checking if Branch Uuid {} exist", LOG_PREFIX, branchUuid);
         return branchRepository.existsByUuid(branchUuid)
                 .flatMap(exist -> exist ? Mono.empty() : Mono.error(BranchNotExist::new));
+    }
+
+    private Mono<Void> compareBranchNameWithCurrent(String branchUuid, String name) {
+        log.info("{} Comparing Branch name {} with current Branch {}", LOG_PREFIX, name, branchUuid);
+        return branchRepository.isNameEquals(branchUuid, name)
+                .flatMap(result -> result == 1 ? Mono.error(NothingToChange::new) : Mono.empty());
     }
 }
