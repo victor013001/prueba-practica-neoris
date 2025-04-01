@@ -2,6 +2,7 @@ package com.neoris.evalart.prueba_practica_neoris.util;
 
 import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.FranchiseDto;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,5 +22,10 @@ public class FranchiseDtoDataUtil {
     public static FranchiseDto getFranchiseDtoWithUuidNull() {
         var randomId = ThreadLocalRandom.current().nextLong();
         return new FranchiseDto(null,"Franchise" + randomId, List.of(getBranchDto()));
+    }
+
+    public static FranchiseDto getFranchiseDtoWithUuidAndBranchesNull() {
+        var randomId = ThreadLocalRandom.current().nextLong();
+        return new FranchiseDto(null,"Franchise" + randomId, null);
     }
 }

@@ -5,6 +5,7 @@ import com.neoris.evalart.prueba_practica_neoris.infrastructure.dto.FranchiseDto
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ public class FranchiseController {
     private final FranchiseService franchiseService;
 
     @PostMapping
-    @ResponseStatus
+    @ResponseStatus(HttpStatus.CREATED)
     public Mono<FranchiseDto> createFranchise(@Valid @RequestBody final FranchiseDto franchiseRequest) {
         log.info("{} Creating Franchise with Name {}", LOG_PREFIX, franchiseRequest.name());
         return franchiseService.createFranchise(franchiseRequest);
